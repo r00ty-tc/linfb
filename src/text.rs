@@ -227,7 +227,7 @@ impl Caption {
                 .map(|row| {
                     let mut new_row = vec![None; width];
                     let row_len = usize::min(width, row.len());
-                    &new_row[width - row_len..].copy_from_slice(&row[..row_len]);
+                    let _ = &new_row[width - row_len..].copy_from_slice(&row[..row_len]);
                     new_row
                 })
                 .collect(),
@@ -237,7 +237,7 @@ impl Caption {
                     let mut new_row = vec![None; width];
                     let row_len = usize::min(width, row.len());
                     let offset = (width - row_len) / 2;
-                    &new_row[offset..row_len + offset].copy_from_slice(&row[..row_len]);
+                    let _ = &new_row[offset..row_len + offset].copy_from_slice(&row[..row_len]);
                     new_row
                 })
                 .collect(),
