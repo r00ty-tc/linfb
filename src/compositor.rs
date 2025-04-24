@@ -109,4 +109,7 @@ impl Shape for Compositor {
         }
         result
     }
+
+    fn hide(&mut self) {}
+    fn show(&mut self) {}
 }

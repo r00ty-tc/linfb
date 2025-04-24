@@ -152,6 +152,8 @@ pub trait Shape: Downcast {
     /// [`None`] means "no pixel at all" and semantically equivalent to `(0, 0, 0, 0).into()`, but
     /// can have better performance.
     fn render(&self) -> Vec<Vec<Option<Color>>>;
+    fn hide(&mut self);
+    fn show(&mut self);
 
     /// Convert self into [`PositionedShape`], saving position info. Needed for
     /// [`Compositor`](super::Compositor).
@@ -241,4 +243,31 @@ impl Shape for Rectangle {
             })
             .collect()
     }
+
+    fn hide(&mut self)
+    {
+        if self.fill_color.is_some()
+        {
+            self.fill_color.unwrap().alpha = 0x00;
+        }
+
+        if self.border_color.is_some()
+        {
+            self.border_color.unwrap().alpha = 0x00;
+        }
+    }
+
+    fn show(&mut self)
+    {
+        if self.fill_color.is_some()
+        {
+            self.fill_color.unwrap().alpha = 0xff;
+        }
+
+        if self.border_color.is_some()
+        {
+            self.border_color.unwrap().alpha = 0xff;
+        }
+    }
+
 }

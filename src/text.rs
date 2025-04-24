@@ -100,6 +100,8 @@ pub struct Caption {
     #[builder(default)]
     /// Text alignment
     pub alignment: Alignment,
+    #[builder(default = "255")]
+    pub last_alpha: u8,
 }
 
 impl Caption {
@@ -282,4 +284,19 @@ impl Shape for Caption {
             .flatten()
             .collect()
     }
+
+    fn hide(&mut self)
+    {
+        if self.color.alpha != 0
+        {
+            self.last_alpha = self.color.alpha;
+            self.color.alpha = 0x00;
+        }
+    }
+
+    fn show(&mut self)
+    {
+        self.color.alpha = self.last_alpha;
+    }
+
 }

@@ -14,6 +14,8 @@ pub struct Image {
     image: image::RgbaImage,
     #[builder(default = "255")]
     alpha: u8,
+    #[builder(default = "255")]
+    last_alpha: u8,
 }
 
 impl Image {
@@ -25,6 +27,7 @@ impl Image {
         Ok(Self {
             image: image::open(path)?.to_rgba(),
             alpha: 0xff,
+            last_alpha: 0xff,
         })
     }
 
@@ -33,6 +36,7 @@ impl Image {
         Ok(Self {
             image: image::load_from_memory(buffer)?.to_rgba(),
             alpha: 0xff,
+            last_alpha: 0xff,
         })
     }
 
@@ -74,5 +78,19 @@ impl Shape for Image {
                 .collect()
             })
             .collect()
+    }
+
+    fn hide(&mut self)
+    {
+        if self.alpha != 0
+        {
+            self.last_alpha = self.alpha;
+            self.alpha(0x00);
+        }
+    }
+
+    fn show(&mut self)
+    {
+        self.alpha(self.last_alpha);
     }
 }
